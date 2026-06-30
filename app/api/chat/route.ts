@@ -64,19 +64,42 @@ async function loadMerchantData(): Promise<string> {
   return JSON.stringify(JSON.parse(raw), null, 2);
 }
 
+const GENERIC_FALLBACK_REPLY =
+  "Sorry, ik kon mijn antwoord even niet goed verwerken. Kun je je vraag opnieuw stellen?";
+
+// Bepaal een veilige fallback-reply: nooit ruwe JSON of een codeblok tonen.
+function safeFallbackReply(rawReply: string): string {
+  const trimmed = rawReply.trim();
+  if (!trimmed || trimmed.startsWith("{") || trimmed.startsWith("```")) {
+    return GENERIC_FALLBACK_REPLY;
+  }
+  return trimmed;
+}
+
 // Parse het JSON-antwoord van Claude naar gestructureerde signalen.
-// Strip eventuele markdown-codeblokken en val bij falen terug op de ruwe
-// tekst als reply met beide signalen op false, zodat de chat blijft werken.
+// Strip markdown-codeblokken en extraheer het JSON-object (eerste { t/m
+// laatste }) zodat eventuele tekst vóór of na de JSON de parse niet breekt.
+// Faalt het alsnog, dan een nette fallback zonder ruwe JSON in de chat.
 function parseChatResult(rawReply: string): ChatResult {
   const cleaned = rawReply
     .replace(/```json/gi, "")
     .replace(/```/g, "")
     .trim();
 
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  const candidate =
+    start !== -1 && end !== -1 && end > start
+      ? cleaned.slice(start, end + 1)
+      : cleaned;
+
   try {
-    const parsed = JSON.parse(cleaned);
+    const parsed = JSON.parse(candidate);
     return {
-      reply: typeof parsed.reply === "string" ? parsed.reply : rawReply,
+      reply:
+        typeof parsed.reply === "string"
+          ? parsed.reply
+          : safeFallbackReply(rawReply),
       suggest_task: parsed.suggest_task === true,
       task_reason:
         typeof parsed.task_reason === "string" ? parsed.task_reason : "",
@@ -84,7 +107,7 @@ function parseChatResult(rawReply: string): ChatResult {
     };
   } catch {
     return {
-      reply: rawReply,
+      reply: safeFallbackReply(rawReply),
       suggest_task: false,
       task_reason: "",
       suggest_booking: false,
