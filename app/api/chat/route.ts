@@ -21,13 +21,68 @@ REGELS:
 4. Vragen die niets met Spotlight-performance te maken hebben (recepten, personeel, juridisch, financieel advies, algemene vragen) beantwoord je niet. Verwijs vriendelijk terug naar waar je wél mee helpt.
 5. Klink als een behulpzame partner van SOUS: professioneel, concreet, gericht op wat de merchant kan verbeteren. Geen generieke chatbot-praat.
 
-Antwoord in het Nederlands, tenzij de merchant in een andere taal schrijft.`;
+Antwoord in het Nederlands, tenzij de merchant in een andere taal schrijft.
+
+BELANGRIJK — OUTPUT FORMAT:
+Antwoord altijd met geldige JSON, en niets daarbuiten, in exact deze vorm:
+{
+  "reply": "je antwoord aan de merchant in tekst",
+  "suggest_task": true of false,
+  "task_reason": "korte reden waarom een account manager-taak nodig is, of leeg",
+  "suggest_booking": true of false
+}
+
+Bepaal "suggest_task" (true) alleen als een van deze signalen aanwezig is:
+- de merchant uit ontevredenheid of een klacht
+- iets blijft onduidelijk nadat jij het hebt proberen te beantwoorden
+- de merchant vraagt nadrukkelijk om verbetering van zijn Spotlight-performance
+- een concrete hulpvraag die menselijke opvolging vereist
+- een signaal van een nieuwe locatie of expansie
+
+Bepaal "suggest_booking" (true) als de merchant nadrukkelijk zijn performance wil verbeteren, als er een concreet verbeterpunt is besproken, of bij een signaal van expansie.
+
+Bij een gewone informatievraag die je volledig zelf beantwoordt, zijn beide false.`;
+
+interface ChatResult {
+  reply: string;
+  suggest_task: boolean;
+  task_reason: string;
+  suggest_booking: boolean;
+}
 
 async function loadMerchantData(): Promise<string> {
   const filePath = path.join(process.cwd(), "merchant_data.json");
   const raw = await readFile(filePath, "utf-8");
   // Parse and re-stringify zodat we geldige, genormaliseerde JSON injecteren.
   return JSON.stringify(JSON.parse(raw), null, 2);
+}
+
+// Parse het JSON-antwoord van Claude naar gestructureerde signalen.
+// Strip eventuele markdown-codeblokken en val bij falen terug op de ruwe
+// tekst als reply met beide signalen op false, zodat de chat blijft werken.
+function parseChatResult(rawReply: string): ChatResult {
+  const cleaned = rawReply
+    .replace(/```json/gi, "")
+    .replace(/```/g, "")
+    .trim();
+
+  try {
+    const parsed = JSON.parse(cleaned);
+    return {
+      reply: typeof parsed.reply === "string" ? parsed.reply : rawReply,
+      suggest_task: parsed.suggest_task === true,
+      task_reason:
+        typeof parsed.task_reason === "string" ? parsed.task_reason : "",
+      suggest_booking: parsed.suggest_booking === true,
+    };
+  } catch {
+    return {
+      reply: rawReply,
+      suggest_task: false,
+      task_reason: "",
+      suggest_booking: false,
+    };
+  }
 }
 
 export async function POST(request: Request) {
@@ -82,12 +137,13 @@ export async function POST(request: Request) {
       messages,
     });
 
-    const reply = response.content
+    const rawReply = response.content
       .filter((block): block is Anthropic.TextBlock => block.type === "text")
       .map((block) => block.text)
       .join("");
 
-    return NextResponse.json({ reply });
+    const result = parseChatResult(rawReply);
+    return NextResponse.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Onbekende fout.";
     return NextResponse.json(
