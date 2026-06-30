@@ -83,7 +83,7 @@ export default function Home() {
     <main style={styles.page}>
       <div style={styles.logoBar}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/sous-logo.png" alt="SOUS" style={styles.logo} />
+        <img src="https://i.imgur.com/u4XcUK2.png" alt="SOUS" style={styles.logo} />
       </div>
       <div style={styles.container}>
         <header style={styles.header}>
