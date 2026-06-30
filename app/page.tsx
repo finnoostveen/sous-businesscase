@@ -81,6 +81,10 @@ export default function Home() {
 
   return (
     <main style={styles.page}>
+      <div style={styles.logoBar}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/sous-logo.png" alt="SOUS" style={styles.logo} />
+      </div>
       <div style={styles.container}>
         <header style={styles.header}>
           <h1 style={styles.title}>SOUS Spotlight-assistent</h1>
@@ -191,6 +195,14 @@ const styles: Record<string, React.CSSProperties> = {
     minHeight: "100vh",
     padding: "24px 16px",
   },
+  logoBar: {
+    maxWidth: 700,
+    margin: "0 auto",
+    padding: 16,
+    display: "flex",
+    justifyContent: "flex-start",
+  },
+  logo: { height: 32, width: "auto", display: "block" },
   container: {
     maxWidth: 700,
     margin: "0 auto",
@@ -221,16 +233,21 @@ const styles: Record<string, React.CSSProperties> = {
     whiteSpace: "pre-wrap",
     wordBreak: "break-word",
   },
-  userBubble: { background: "#2f6fed", color: "#fff", borderBottomRightRadius: 4 },
-  agentBubble: {
-    background: "#f0f0f0",
+  userBubble: {
+    background: "#F1F1F4",
     color: "#1a1a1a",
+    borderBottomRightRadius: 4,
+  },
+  agentBubble: {
+    background: "#00073D",
+    color: "#fff",
     borderBottomLeftRadius: 4,
   },
-  typing: { color: "#888", fontStyle: "italic" },
+  typing: { color: "#c7cad8", fontStyle: "italic" },
   taskCard: {
-    border: "1px solid #d9c48a",
-    background: "#fbf6e7",
+    border: "1px solid #e0e0e0",
+    borderLeft: "4px solid #00073D",
+    background: "#fafafa",
     borderRadius: 10,
     padding: 12,
     margin: "4px 0 10px",
@@ -239,7 +256,7 @@ const styles: Record<string, React.CSSProperties> = {
   taskReason: { fontSize: 14, color: "#444", marginTop: 4 },
   bookingWrap: { margin: "4px 0 10px" },
   bookingButton: {
-    background: "#1f9d63",
+    background: "#00073D",
     color: "#fff",
     border: "none",
     borderRadius: 8,
@@ -260,7 +277,7 @@ const styles: Record<string, React.CSSProperties> = {
     outline: "none",
   },
   sendButton: {
-    background: "#2f6fed",
+    background: "#00073D",
     color: "#fff",
     border: "none",
     borderRadius: 8,
