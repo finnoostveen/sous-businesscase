@@ -5,10 +5,11 @@ import { useState, useRef, useEffect } from "react";
 interface Message {
   role: "user" | "assistant";
   content: string;
-  // Signalen uit de API-respons, alleen aanwezig op agent-berichten.
-  suggest_task?: boolean;
+  // Of de taak-kaart / afspraak-knop bij dit agent-bericht getoond wordt.
+  // Bepaald bij ontvangst, zodat ze elk maximaal één keer per gesprek tonen.
+  showTaskCard?: boolean;
   task_reason?: string;
-  suggest_booking?: boolean;
+  showBookingButton?: boolean;
 }
 
 const BOOKING_PLACEHOLDER_URL = "https://calendly.com/sous-spotlight/placeholder";
@@ -18,6 +19,9 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Taak-kaart en afspraak-knop verschijnen elk hooguit één keer per gesprek.
+  const [taskShown, setTaskShown] = useState(false);
+  const [bookingShown, setBookingShown] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -53,12 +57,18 @@ export default function Home() {
         throw new Error(data.error || "Er ging iets mis.");
       }
 
+      // Toon elk signaal alleen als het nog niet eerder getoond is.
+      const showTaskCard = data.suggest_task === true && !taskShown;
+      const showBookingButton = data.suggest_booking === true && !bookingShown;
+      if (showTaskCard) setTaskShown(true);
+      if (showBookingButton) setBookingShown(true);
+
       const agentMessage: Message = {
         role: "assistant",
         content: data.reply,
-        suggest_task: data.suggest_task,
+        showTaskCard,
         task_reason: data.task_reason,
-        suggest_booking: data.suggest_booking,
+        showBookingButton,
       };
       setMessages((prev) => [...prev, agentMessage]);
     } catch (err) {
@@ -122,7 +132,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {m.role === "assistant" && m.suggest_task && (
+              {m.role === "assistant" && m.showTaskCard && (
                 <div style={styles.taskCard}>
                   <div style={styles.taskCardTitle}>
                     📋 Voorstel: taak voor account manager
@@ -137,7 +147,7 @@ export default function Home() {
                 </div>
               )}
 
-              {m.role === "assistant" && m.suggest_booking && (
+              {m.role === "assistant" && m.showBookingButton && (
                 <div style={styles.bookingWrap}>
                   <button style={styles.bookingButton} onClick={openBooking}>
                     📅 Plan een gesprek met je account manager
