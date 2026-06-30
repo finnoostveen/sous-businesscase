@@ -1,0 +1,106 @@
+{
+  "business_profile": {
+    "name": "Le French Cafe",
+    "city": "Amsterdam",
+    "type": ["Restaurant", "French Cuisine", "Cafe"],
+    "address": "Herengracht 182, 1016 BR Amsterdam, NL",
+    "phone": "+31 20 555 1234",
+    "website": "https://lefrenchcafe.nl",
+    "language": "nl",
+    "focus": "french restaurant",
+    "description": "Le French Cafe brings the charm of a Parisian bistro to the canals of Amsterdam. Our chef sources seasonal ingredients from local farms and French artisan producers to create classic dishes with a modern Dutch twist. From freshly baked croissants at breakfast to coq au vin at dinner, every plate tells a story of French culinary tradition. We also offer an extensive wine list curated from small French vineyards and a sunny canal-side terrace.",
+    "opening_hours": {
+      "monday": "08:00-15:00, 17:30-22:30",
+      "tuesday": "08:00-15:00, 17:30-22:30",
+      "wednesday": "08:00-15:00, 17:30-22:30",
+      "thursday": "08:00-15:00, 17:30-23:00",
+      "friday": "08:00-15:00, 17:30-23:30",
+      "saturday": "09:00-23:30",
+      "sunday": "09:00-22:00"
+    },
+    "attributes": [
+      "Wheelchair accessible",
+      "Outdoor seating",
+      "Serves alcohol",
+      "Price range: $$$",
+      "Reservations: Recommended",
+      "terrace",
+      "wine-bar",
+      "brunch"
+    ]
+  },
+  "reviews": {
+    "period": "last 90 days",
+    "total_reviews": 47,
+    "average_rating": 4.3,
+    "by_directory": {
+      "google": 28,
+      "tripadvisor": 12,
+      "yelp": 7
+    },
+    "rating_distribution": {
+      "5_star": 22,
+      "4_star": 15,
+      "3_star": 6,
+      "2_star": 3,
+      "1_star": 1
+    }
+  },
+  "visibility": {
+    "this_venue": {
+      "rank": 3,
+      "visibility": 72.4,
+      "avg_position": 2.8
+    },
+    "top_competitors": [
+      { "rank": 1, "name": "Cafe de Klos", "visibility": 91.2, "position": 1.3, "mentions": 67 },
+      { "rank": 2, "name": "The Duchess", "visibility": 84.7, "position": 1.9, "mentions": 53 },
+      { "rank": 4, "name": "Brasserie Ambassade", "visibility": 68.1, "position": 3.2, "mentions": 31 },
+      { "rank": 5, "name": "Chez Georges", "visibility": 55.9, "position": 4.1, "mentions": 22 },
+      { "rank": 6, "name": "Bistrot Neuf", "visibility": 49.3, "position": 4.8, "mentions": 18 }
+    ],
+    "tracked_competitors": [
+      { "name": "The Duchess", "url": "https://theduchess.com", "visibility": 84.7, "mentions": 53 },
+      { "name": "Brasserie Ambassade", "url": "https://ambassade-hotel.nl/brasserie", "visibility": 68.1, "mentions": 31 },
+      { "name": "Chez Georges", "url": "https://chezgeorges.nl", "visibility": 55.9, "mentions": 22 },
+      { "name": "Bistrot Neuf", "url": "https://bistrotneuf.nl", "visibility": 49.3, "mentions": 18 }
+    ],
+    "top_search_terms": [
+      { "term": "best french restaurant amsterdam", "type": "organic search", "volume": 2400, "visibility": 78.5, "trend_pp": 3.2, "sentiment": 0.82, "avg_position": 2.1 },
+      { "term": "brunch amsterdam canal", "type": "organic search", "volume": 1800, "visibility": 65.0, "trend_pp": -1.5, "sentiment": 0.88, "avg_position": 3.4 },
+      { "term": "romantic dinner amsterdam", "type": "organic search", "volume": 1500, "visibility": 42.3, "trend_pp": 5.7, "sentiment": 0.79, "avg_position": 4.8 },
+      { "term": "wine bar amsterdam centrum", "type": "organic search", "volume": 1100, "visibility": 38.5, "trend_pp": 1.0, "sentiment": 0.70, "avg_position": 5.2 },
+      { "term": "french bistro terrace amsterdam", "type": "organic search", "volume": 900, "visibility": 71.2, "trend_pp": 2.1, "sentiment": 0.85, "avg_position": 2.6 },
+      { "term": "coq au vin amsterdam", "type": "organic search", "volume": 480, "visibility": 88.0, "trend_pp": 6.4, "sentiment": null, "avg_position": 1.5 },
+      { "term": "le french cafe reviews", "type": "brand sentiment", "volume": 320, "visibility": 95.0, "trend_pp": 0.8, "sentiment": 0.91, "avg_position": 1.0 },
+      { "term": "le french cafe vs the duchess", "type": "competitor comparison", "volume": 140, "visibility": 62.0, "trend_pp": -2.3, "sentiment": 0.74, "avg_position": 2.0 }
+    ]
+  },
+  "recommendations": [
+    {
+      "priority": "high",
+      "title": "Add high-quality terrace photos to Google Business Profile",
+      "detail": "Your terrace is a top-mentioned feature in reviews but has no dedicated photos on your Google listing. Adding 3-5 professional terrace photos could increase click-through rate by 15-20%."
+    },
+    {
+      "priority": "high",
+      "title": "Create a dedicated brunch landing page",
+      "detail": "You rank #3.4 for 'brunch amsterdam canal' but have no dedicated brunch page on your website."
+    },
+    {
+      "priority": "medium",
+      "title": "Respond to recent negative review on TripAdvisor",
+      "detail": "A 2-star review from 3 days ago mentions slow service on Saturday evening."
+    },
+    {
+      "priority": "medium",
+      "title": "Optimize wine list page for SEO",
+      "detail": "Your wine list page is not indexed by search engines."
+    },
+    {
+      "priority": "low",
+      "title": "Update opening hours for summer season",
+      "detail": "Several competitors have extended summer hours."
+    }
+  ]
+}
