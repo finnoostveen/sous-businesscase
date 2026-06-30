@@ -212,7 +212,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: "flex",
     justifyContent: "flex-start",
   },
-  logo: { height: 32, width: "auto", display: "block" },
+  logo: { height: 96, width: "auto", display: "block" },
   container: {
     maxWidth: 700,
     margin: "0 auto",
